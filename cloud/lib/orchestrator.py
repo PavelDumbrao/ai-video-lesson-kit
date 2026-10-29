@@ -519,7 +519,7 @@ class HuggingFaceJobsProvider(BaseComputeProvider):
         from huggingface_hub import HfApi
         api = HfApi(token=self.token)
         t0 = time.time()
-        poll_interval = 5.0
+        poll_interval = 20.0  # 72 задач × 5 с = 4 300 запросов за 5 мин > лимит HF 2 500 (29.10.2026)
         consecutive_network_errors = 0
         max_consecutive_network_errors = 3
         
