@@ -159,3 +159,7 @@ npx remotion render src/index.ts Lesson1 out/lesson1_2k.mp4 --scale=1.3333333333
 Проверка отдельных кусков: `npx remotion still src/index.ts Lesson1 out/f.png --frame=1250`, `npx remotion render src/index.ts Lesson1 out/part.mp4 --frames=600-900 --scale=0.5 --muted`; листы кадров каждые 0,5 с — `scripts/frames_05s.py`.
 
 Параллельный рендер (десятки задач в облаке, склейка кусков) — см. папку `cloud/` и `skills/cloud-render/SKILL.md`: облачный воркер собирает этот проект (`npx remotion bundle src/index.ts`) и рендерит диапазоны кадров с теми же `--scale` и `--muted`.
+
+## Пример: сцены ролика «Как сделано это видео»
+
+`src/motion/scenes/l1/` — не заглушки, а 16 настоящих сцен 13-минутного урока «Как сделано это видео» (Hook, Leadgen, Layers, Script, Voice, Face, Motion, Frames, Forums, Axe, Harness, Parallel, Cost, Control, Repeat, Outro; карта типов `l1_*` — в `scenes/l1/index.ts`). Их тайминги и тексты берутся из `public/lesson1/{timeline,storyboard,aroll,screens}.json`, общие помощники — из `src/motion/scenes/kit.tsx`. Это образец того, как выглядит готовая сцена: пишите свои по тому же устройству. Смотреть: `npx remotion studio` → композиция `Lesson1` (23 408 кадров, 30 fps). Голос автора в набор не входит, поэтому без `public/lesson1/voice.wav` рендер и стиллы не пойдут — для просмотра макета положите тишину (см. раздел «voice.wav» выше) и удалите её после проверки.
