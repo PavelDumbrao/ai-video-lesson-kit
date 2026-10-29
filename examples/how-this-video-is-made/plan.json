@@ -1,0 +1,275 @@
+[
+ {
+  "id": "F01",
+  "display": [
+   0.07,
+   9.08
+  ],
+  "gen": [
+   0.07,
+   9.27
+  ],
+  "switch_t": 6.4,
+  "pad": 0.4,
+  "dur": 10,
+  "mode": "full→corner",
+  "clipStart": 0.4,
+  "side": "right",
+  "why": "хук: «не записано на камеру» — лицо во весь экран, на «Лицо моё» уходит в угол справа, слева выезжает титул",
+  "images": [
+   "work/refs/portrait.jpg"
+  ]
+ },
+ {
+  "id": "F02",
+  "display": [
+   70.05,
+   74.65
+  ],
+  "gen": [
+   70.05,
+   77.25
+  ],
+  "switch_t": null,
+  "pad": 0.4,
+  "dur": 8,
+  "mode": "full",
+  "clipStart": 0.4,
+  "side": "right",
+  "why": "личная реплика «извините, нейрокреаторы» — вставка во весь экран",
+  "images": [
+   "work/refs/portrait.jpg"
+  ]
+ },
+ {
+  "id": "F03",
+  "display": [
+   87.84,
+   94.2
+  ],
+  "gen": [
+   87.84,
+   95.04
+  ],
+  "switch_t": null,
+  "pad": 0.4,
+  "dur": 8,
+  "mode": "full",
+  "clipStart": 0.4,
+  "side": "right",
+  "why": "шутка «да, сейчас! хренакс» — живая мимика во весь экран",
+  "images": [
+   "work/refs/portrait.jpg"
+  ]
+ },
+ {
+  "id": "F04",
+  "display": [
+   197.73,
+   203.52
+  ],
+  "gen": [
+   197.73,
+   204.93
+  ],
+  "switch_t": null,
+  "pad": 0.4,
+  "dur": 8,
+  "mode": "full",
+  "clipStart": 0.4,
+  "side": "right",
+  "why": "личная история «было отвратительно»",
+  "images": [
+   "work/refs/portrait.jpg"
+  ]
+ },
+ {
+  "id": "F05",
+  "display": [
+   335.28,
+   342.72
+  ],
+  "gen": [
+   335.28,
+   343.48
+  ],
+  "switch_t": 337.24,
+  "pad": 0.4,
+  "dur": 9,
+  "mode": "full→corner",
+  "clipStart": 0.4,
+  "side": "left",
+  "why": "«главная фишка — параллельность» во весь экран, затем угол слева, справа 16 карточек-сцен",
+  "images": [
+   "work/refs/portrait.jpg"
+  ]
+ },
+ {
+  "id": "F06",
+  "display": [
+   360.2,
+   365.52
+  ],
+  "gen": [
+   360.2,
+   367.4
+  ],
+  "switch_t": null,
+  "pad": 0.4,
+  "dur": 8,
+  "mode": "full",
+  "clipStart": 0.4,
+  "side": "right",
+  "why": "вопрос раздела «как агент понимает, что получилось хорошо?»",
+  "images": [
+   "work/refs/portrait.jpg"
+  ]
+ },
+ {
+  "id": "F07",
+  "display": [
+   423.22,
+   432.02
+  ],
+  "gen": [
+   423.22,
+   432.42
+  ],
+  "switch_t": null,
+  "pad": 0.4,
+  "dur": 10,
+  "mode": "full",
+  "clipStart": 0.4,
+  "side": "right",
+  "why": "сценка «липсинк кривой — решай» с мимикой",
+  "images": [
+   "work/refs/portrait.jpg"
+  ]
+ },
+ {
+  "id": "F08",
+  "display": [
+   486.65,
+   494.35
+  ],
+  "gen": [
+   486.65,
+   494.85
+  ],
+  "switch_t": null,
+  "pad": 0.4,
+  "dur": 9,
+  "mode": "full",
+  "clipStart": 0.4,
+  "side": "right",
+  "why": "хитрая реплика «вы получаете мои семь дней за вечер… не ведитесь»",
+  "images": [
+   "work/refs/portrait.jpg"
+  ]
+ },
+ {
+  "id": "F09",
+  "display": [
+   494.41,
+   501.98
+  ],
+  "gen": [
+   494.41,
+   502.61
+  ],
+  "switch_t": 495.86,
+  "pad": 0.4,
+  "dur": 9,
+  "mode": "full→corner",
+  "clipStart": 0.4,
+  "side": "right",
+  "why": "«сейчас будет глубоко» во весь экран, затем угол справа, слева три модели",
+  "images": [
+   "work/refs/portrait.jpg"
+  ]
+ },
+ {
+  "id": "F10",
+  "display": [
+   538.98,
+   544.5
+  ],
+  "gen": [
+   538.98,
+   546.18
+  ],
+  "switch_t": null,
+  "pad": 0.4,
+  "dur": 8,
+  "mode": "full",
+  "clipStart": 0.4,
+  "side": "right",
+  "why": "«три часа — я это не схавал»",
+  "images": [
+   "work/refs/portrait.jpg"
+  ]
+ },
+ {
+  "id": "F11",
+  "display": [
+   660.58,
+   668.02
+  ],
+  "gen": [
+   660.58,
+   668.78
+  ],
+  "switch_t": null,
+  "pad": 0.4,
+  "dur": 9,
+  "mode": "full",
+  "clipStart": 0.4,
+  "side": "right",
+  "why": "история про ученицу и контроль",
+  "images": [
+   "work/refs/portrait.jpg"
+  ]
+ },
+ {
+  "id": "F12",
+  "display": [
+   695.37,
+   702.18
+  ],
+  "gen": [
+   695.37,
+   702.57
+  ],
+  "switch_t": 696.5,
+  "pad": 0.4,
+  "dur": 8,
+  "mode": "full→corner",
+  "clipStart": 0.4,
+  "side": "left",
+  "why": "«теперь практика» во весь экран, на «Под этим видео» угол слева, справа карточка промпта",
+  "images": [
+   "work/refs/portrait.jpg"
+  ]
+ },
+ {
+  "id": "F13",
+  "display": [
+   769.86,
+   776.98
+  ],
+  "gen": [
+   769.86,
+   776.74
+  ],
+  "switch_t": 773.59,
+  "pad": 0.4,
+  "dur": 8,
+  "mode": "corner→full",
+  "clipStart": 0.4,
+  "side": "right",
+  "why": "финал: появляется в углу справа на чек-листе, на «Промпт — под видео» выходит во весь экран до конца",
+  "images": [
+   "work/refs/portrait.jpg"
+  ]
+ }
+]

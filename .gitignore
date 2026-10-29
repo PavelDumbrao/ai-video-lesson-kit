@@ -1,0 +1,14 @@
+_import/
+_work/
+.env
+*.env
+node_modules/
+out/
+*.wav
+*.mp4
+*.webm
+*.mkv
+__pycache__/
+.claude-api-worker/
+.DS_Store
+work/

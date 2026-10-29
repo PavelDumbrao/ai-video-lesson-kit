@@ -1,0 +1,23 @@
+{
+  "name": "ai-video-lesson-remotion",
+  "version": "1.0.0",
+  "private": true,
+  "sideEffects": false,
+  "description": "Проект Remotion для видео-урока: уроки регистрируются данными public/lessonN/*.json и сценами src/motion/scenes/lN/",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "compositions": "remotion compositions src/index.ts"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.537",
+    "@remotion/media": "4.0.537",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "remotion": "4.0.537"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.18",
+    "typescript": "5.9.3"
+  }
+}

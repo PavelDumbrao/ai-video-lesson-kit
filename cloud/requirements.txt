@@ -1,0 +1,5 @@
+huggingface_hub>=0.34
+pyyaml
+# Запасной путь (Modal) — ставьте, только если рендерите на Modal:
+#   pip install modal
+# modal

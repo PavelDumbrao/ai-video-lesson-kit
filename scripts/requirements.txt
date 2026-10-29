@@ -1,0 +1,7 @@
+# Python ≥ 3.10. Голос, раскадровка, план лица, куски голоса, сборка aroll.json — только стандартная библиотека.
+# numpy — qa_lips.py (корреляция звука), vision/measure_body.py.
+# opencv-python — jumpcheck.py и vision/seg_person.py (вырез человека, YuNet); проще всего через `bash scripts/vision/setup.sh`
+# (создаёт venv scripts/vision/venv и скачивает модели OpenCV Zoo).
+# Ещё нужны ffmpeg (с libx265 и libvpx-vp9) и node ≥ 20 — ставятся отдельно (macOS: brew install ffmpeg node).
+numpy
+opencv-python

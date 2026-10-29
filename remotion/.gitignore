@@ -1,0 +1,6 @@
+node_modules/
+out/
+public/lesson*/*.wav
+*.mp4
+*.webm
+*.mkv
