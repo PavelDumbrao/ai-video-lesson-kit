@@ -34,7 +34,7 @@
 3. **Голос** — `scripts/tts_timeline.py` → `voice.wav` + `timeline.json`. Дай послушать `voice.mp3`. Если что-то произнесено не так — поправь текст и переозвучь (дёшево).
 4. **Раскадровка** — `skills/motion-remotion/SKILL.md`: `storyboard.json` (слово-якорь → что показать), `scripts/resolve_storyboard.py`, `scripts/skeleton.py`.
 5. **Сцены** — код Remotion по раскадровке, строго по правилам вёрстки из скилла. Если умеешь запускать саб-агентов — по одному на сцену параллельно (`skills/motion-remotion/TASK_SCENE_TEMPLATE.md`), иначе последовательно. Каждую сцену проверь кадрами (`cloud/scene_check_hf.py` или локально: `npx remotion render … --frames=a-b --scale=0.5 --muted` + `scripts/frames_05s.py`).
-6. **План лица** — `face_plan.json` (6 мест на 3 минуты: интро, вопросы разделов, личные фразы, финал), `scripts/resolve_face_plan.py`, покажи человеку документ мест с ценой, дождись «ок».
+6. **План лица** — `face_plan.json` (6 мест на 3 минуты: **первые 10 секунд — обязательно лицо во весь экран**, затем вопросы разделов, личные фразы, финал), `scripts/resolve_face_plan.py`, покажи человеку документ мест с ценой, дождись «ок».
 7. **Лицо** — `face/face_kie.py`, затем `scripts/qa_lips.py` и `scripts/jumpcheck.py` на каждый ролик; брак — перегенерируй только его. Для мест с углом — `scripts/vision/cutout.sh`. Собери `scripts/make_aroll.py`.
 8. **Рендер** — `cloud/hf_render.py --live` (или Modal / локально) → `scripts/finish.sh` (громкость −14 LUFS, превью ≤ 30 МБ) → листы кадров вокруг мест с лицом (`scripts/frames_05s.py`) — посмотри сам, потом отдай файл человеку.
 9. **Разбор**: что понравилось, что нет — запиши в `STATUS.md` как правила «под себя» (это и есть шлифовка скилла).
