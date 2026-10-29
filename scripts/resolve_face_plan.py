@@ -63,10 +63,13 @@ def resolve(places, timeline, storyboard=None):
             k += 1
         s, e = round(sec[i]["s"], 2), round(sec[k]["e"], 2)
         ln = e - s
-        if ln > MAX_WINDOW:
-            err(f"окно {s:.2f}–{e:.2f} = {ln:.1f} с длиннее {MAX_WINDOW} с — сократите (to раньше) или разбейте место")
-            continue
         pad, dur, gen = face_timing((s, e), total)
+        if ln > MAX_WINDOW:
+            if pad >= 0.25:  # окно 11,2–11,5 с: ролик 12 с с тишиной по краям 0,25–0,4 с — допустимо (правило «первые 10 с — лицо»)
+                warns.append(f"{pid}: окно {s:.2f}–{e:.2f} = {ln:.1f} с длиннее {MAX_WINDOW} с — тишина по краям сжата до {pad} с")
+            else:
+                err(f"окно {s:.2f}–{e:.2f} = {ln:.1f} с не помещается в ролик 12 с — сократите (to раньше) или разбейте место")
+                continue
         switch_t = None
         if mode in ("full→corner", "corner→full"):
             if not p.get("switch"):
