@@ -12,6 +12,7 @@
 ## Что прочитать (только нужное)
 - `src/motion/types.ts` — `SceneProps`: `f`, `b[]`, `t0`, `t1`, `w(prefix)`, `scene`, `tl`.
 - Библиотека `src/motion/anim.ts`, `ui.tsx`, `text.tsx`, `icons.tsx`, `viz.tsx`, `constants.ts`, `utils.ts`; палитра и шрифты — `src/theme.ts`.
+- **Помощники библиотеки `src/motion/utils.ts` (с 29.10.2026): `safeExitAlpha`, `Pages`/`Page` (смена страниц без наложений и без пустых кадров), `Slot` (пунктирная заглушка до своего бита), `StampFit`/`stampStyle` (штамп не вылезает за карточку), `clampIn` — читать `src/motion/README-helpers.md` и пользоваться ими; свои копии `safeExitAlpha` и смену страниц вручную не писать.**
 - Образец плотности и движения: 1–2 сцены `src/motion/scenes/l1/` (не копировать).
 - Своя сцена в раскадровке: `python3 -c "import json;[print(json.dumps(s,ensure_ascii=False,indent=1)) for s in json.load(open('public/lesson{N}/storyboard.json'))['scenes'] if s['type']=='{тип}']"` — `label` бита = ТЗ на элемент в момент слова `word` (время `t`).
 - Слова раздела с временем: `python3 -c "import json;t=json.load(open('public/lesson{N}/timeline.json'));[print(round(w['s'],2),w['t']) for w in t['words'] if w['sec']=={номер раздела}]"`. Текст — `{script.md}`.

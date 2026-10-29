@@ -19,7 +19,7 @@ description: Motion-графика видеоурока кодом (Remotion): �
 `python3 scripts/skeleton.py N --project remotion --sub "Название"` — заглушки сцен `() => null` по типам из раскадровки, регистрация в `scenes/index.ts` и `src/lessons.ts`, пустые `aroll.json`/`screens.json`. Данные `voice.wav`, `timeline.json` — в `public/lessonN/`. Проверка: `npx tsc --noEmit`, `npx remotion compositions src/index.ts` показывает `LessonN`.
 
 ## 3. Сцена
-Файл `src/motion/scenes/lN/<Имя>.tsx`, `export const <Имя>: React.FC<SceneProps>`. `SceneProps`: `f` (кадр), `b[]` (кадры битов: элемент бита появляется на `b[i]`), `t0`/`t1` (вход/уход сцены), `w(prefix)` (кадр слова), `scene`, `tl`. Библиотека: `anim.ts` (пружины, stagger), `ui.tsx`, `text.tsx`, `icons.tsx`, `viz.tsx`, `constants.ts` (`LAYOUT`, `ANIM_TIMING`), `utils.ts` (`safeExitAlpha`).
+Файл `src/motion/scenes/lN/<Имя>.tsx`, `export const <Имя>: React.FC<SceneProps>`. `SceneProps`: `f` (кадр), `b[]` (кадры битов: элемент бита появляется на `b[i]`), `t0`/`t1` (вход/уход сцены), `w(prefix)` (кадр слова), `scene`, `tl`. Библиотека: `anim.ts` (пружины, stagger), `ui.tsx`, `text.tsx`, `icons.tsx`, `viz.tsx`, `constants.ts` (`LAYOUT`, `ANIM_TIMING`), `utils.ts` — `safeExitAlpha`, `Pages`/`Page` (смена страниц без наложений и пустых кадров), `Slot` (заглушка до своего бита), `StampFit` (штамп в пределах карточки); как пользоваться — `src/motion/README-helpers.md`. Свои копии этих помощников в сценах не писать.
 
 ### Строгие правила вёрстки (каждое — грабли, записанные один раз)
 1. Кадр 1920×1080; сцена в зоне **x 140–1780 / y 130–830**; ниже y 860 — только караоке.
