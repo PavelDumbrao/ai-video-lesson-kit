@@ -89,6 +89,15 @@ def resolve(places, timeline, storyboard=None):
     for a, b in zip(ordered, ordered[1:]):
         if b["display"][0] < a["display"][1]:
             errors.append(f"{a['id']} и {b['id']}: окна пересекаются ({a['display']} / {b['display']})")
+    # правило «первые 10 секунд ролика — с лицом» (skills/video-lesson-studio, правило 8): предупреждение
+    if ordered and words and len(ordered) == len(places):  # при ошибках разрешения правило не проверяем: «первым» оказалось бы не то место
+        first, w0 = ordered[0], words[0]["s"]
+        if first["display"][0] > w0 + 0.5:
+            warns.append(f"{first['id']}: первое место начинается на {first['display'][0]:.2f} с, а речь — на {w0:.2f} с; "
+                         "ролик должен открываться лицом с первого слова (from = первое слово раздела 0)")
+        elif first["display"][1] - first["display"][0] < 10 - 0.05:
+            warns.append(f"{first['id']}: первое место {first['display'][1] - first['display'][0]:.1f} с — короче 10 с; "
+                         "продлите `to` до конца следующего предложения (окно ≤ 11,2 с)")
     # биты графики внутри окон «во весь экран» (предупреждение)
     if storyboard:
         for x in plan:

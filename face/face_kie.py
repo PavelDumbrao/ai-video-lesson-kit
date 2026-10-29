@@ -332,6 +332,60 @@ def create_kie_task(api_key: str, payload: Dict[str, Any]) -> str:
     raise RuntimeError("Не удалось создать задачу в kie.ai.")
 
 
+# ── Кадр 16:9 ───────────────────────────────────────────────────────────────────────────────
+# Весь конвейер после лица (Aroll.tsx — «cover» на 1920×1080, cutout.sh, measure_body.py, Transition.tsx) считает,
+# что ролик лица горизонтальный 16:9. Kling Avatar / InfiniTalk / OmniHuman возвращают ролик в пропорциях ФОТО:
+# с вертикального портрета (например 956×1280) приходит вертикальный ролик 816×1104 — во весь экран лицо обрезается
+# по лбу и подбородку, а вырез для угла растягивается в 2,6 раза. Поэтому фото до загрузки приводится к 16:9
+# (портрет по центру по высоте кадра, по бокам — размытое продолжение того же фото), а скачанный ролик, если он
+# всё же не 16:9, приводится так же (оригинал остаётся рядом как <id>_raw.mp4).
+WIDE = 16 / 9
+PAD_16x9 = (
+    "split[a][b];[a]scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080,boxblur=40:3[bg];"
+    "[b]scale=-2:1080[fg];[bg][fg]overlay=(W-w)/2:0,setsar=1"
+)
+
+
+def media_size(path: str) -> Tuple[int, int]:
+    """Ширина и высота первого видеопотока / картинки через ffprobe."""
+    r = subprocess.run(
+        ["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=width,height", "-of", "csv=p=0", path],
+        capture_output=True, text=True, check=True,
+    )
+    w, h = r.stdout.strip().split("\n")[0].split(",")[:2]
+    return int(w), int(h)
+
+
+def is_wide(path: str) -> bool:
+    w, h = media_size(path)
+    return abs(w / h - WIDE) < 0.02
+
+
+def photo_to_16x9(photo: str, out_dir: str) -> str:
+    """Фото не 16:9 → <out>/<имя>_16x9.jpg 1920×1080 (портрет по центру, края — размытое продолжение)."""
+    if is_wide(photo):
+        return photo
+    dst = os.path.join(out_dir, os.path.splitext(os.path.basename(photo))[0] + "_16x9.jpg")
+    if not (os.path.exists(dst) and os.path.getmtime(dst) >= os.path.getmtime(photo)):
+        subprocess.run(["ffmpeg", "-nostdin", "-loglevel", "error", "-y", "-i", photo, "-filter_complex", PAD_16x9,
+                        "-frames:v", "1", "-q:v", "2", dst], check=True)
+    w, h = media_size(photo)
+    print(f"Фото {w}×{h} не 16:9 → {dst} (1920×1080): ролик лица должен быть горизонтальным, как кадр урока.")
+    return dst
+
+
+def video_to_16x9(mp4: str) -> None:
+    """Скачанный ролик не 16:9 → привести к 1920×1080 на месте (оригинал → <id>_raw.mp4), звук без изменений."""
+    if is_wide(mp4):
+        return
+    w, h = media_size(mp4)
+    raw = mp4[:-4] + "_raw.mp4"
+    os.replace(mp4, raw)
+    subprocess.run(["ffmpeg", "-nostdin", "-loglevel", "error", "-y", "-i", raw, "-filter_complex", f"[0:v]{PAD_16x9},format=yuv420p[v]",
+                    "-map", "[v]", "-map", "0:a?", "-c:v", "libx264", "-crf", "16", "-preset", "medium", "-c:a", "copy", mp4], check=True)
+    print(f"Ролик {os.path.basename(raw)} {w}×{h} не 16:9 → {os.path.basename(mp4)} 1920×1080 (края — размытое продолжение кадра).")
+
+
 def download_video_file(url: str, dest_path: str, api_key: str) -> None:
     """Скачивание сгенерированного видеофайла во временный файл с последующим переименованием."""
     tmp_dest = f"{dest_path}.part_{os.getpid()}"
@@ -470,6 +524,7 @@ def poll_task_record(
             print(f"[{sid}] Успех генерации! Списано кредитов: {credits_consumed}, время: {cost_time} с.")
             print(f"[{sid}] Скачивание готового видео: {dest_mp4}...")
             download_video_file(video_url, dest_mp4, api_key=api_key)
+            video_to_16x9(dest_mp4)
 
             report.setdefault("items", {})[sid] = {
                 "taskId": task_id,
@@ -574,6 +629,9 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> None:
+    # Прогресс опроса виден и при запуске в фоне с выводом в файл (nohup … > face.log): без этого Python
+    # буферизует stdout и лог пуст до конца генерации.
+    sys.stdout.reconfigure(line_buffering=True)
     check_ffmpeg()
     args = parse_args()
 
@@ -621,7 +679,7 @@ def main() -> None:
     report = load_json(report_path) if os.path.exists(report_path) else {"items": {}}
 
     voice_dur = get_audio_duration(args.voice)
-    photo_abs = os.path.abspath(args.photo)
+    photo_abs = os.path.abspath(photo_to_16x9(os.path.abspath(args.photo), out_dir))
 
     # Загрузка фото портрета (только в боевом режиме)
     photo_url = upload_cache.get(photo_abs)
@@ -733,6 +791,7 @@ def main() -> None:
         # В боевом режиме:
         # Проверяем, есть ли уже готовый mp4
         if os.path.exists(mp4_path) and os.path.getsize(mp4_path) > 1000:
+            video_to_16x9(mp4_path)  # ролики, скачанные до появления этой проверки
             print(f"[{sid}] Видео {sid}.mp4 уже готово, пропускаем.")
             continue
 

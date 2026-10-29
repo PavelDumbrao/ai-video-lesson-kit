@@ -17,7 +17,7 @@
 Отмечай выполненное в `STATUS.md` в корне (создай), чтобы продолжать после перерыва.
 
 ### Шаг 0. Машина
-Проверь: `node >= 20`, `npm`, `python3 >= 3.10`, `ffmpeg`, `git`. Чего нет — предложи поставить (macOS: Homebrew; Windows: winget/choco или WSL; Linux: apt) и поставь с разрешения. Потом: `pip install -r scripts/requirements.txt -r face/requirements.txt -r cloud/requirements.txt`, `cd remotion && npm install`.
+Проверь: `node >= 20`, `npm`, `python3 >= 3.10`, `ffmpeg`, `git`. Чего нет — предложи поставить (macOS: Homebrew; Windows: winget/choco или WSL; Linux: apt) и поставь с разрешения. Потом в корне набора: `python3 -m venv .venv && . .venv/bin/activate` (Windows: `.venv\Scripts\activate`; системный `pip install` в Ubuntu/Debian и в Python из Homebrew запрещён — ошибка `externally-managed-environment`, PEP 668), `pip install -r scripts/requirements.txt -r face/requirements.txt -r cloud/requirements.txt`, `cd remotion && npm ci` (ровно версии из `package-lock.json`; `npm install` на npm 10 переписывает lock-файл), `bash scripts/vision/setup.sh` (модели выреза и проверки лица; проверка — `python3 scripts/jumpcheck.py --help`). Все `python3 scripts/…`, `face/…`, `cloud/…` дальше запускай в этом venv (новая сессия терминала — снова `. .venv/bin/activate`).
 
 ### Шаг 1. Голос — ElevenLabs
 Прочитай `skills/voice-elevenlabs/SKILL.md` и `guides/elevenlabs.md`. Попроси человека: 1) завести аккаунт ElevenLabs и взять API-ключ (Profile → API Keys), тариф Starter достаточен для старта; 2) записать 1–2 минуты речи на телефон в тихом месте и сделать Instant Voice Clone в кабинете, прислать Voice ID. Запиши в `.env`: `ELEVENLABS_API_KEY`, `ELEVENLABS_VOICE_ID`. Проверь ключ коротким запросом (баланс кредитов).

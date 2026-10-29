@@ -6,6 +6,7 @@
 
 ## Установка
 ```bash
+python3 -m venv .venv && . .venv/bin/activate     # системный pip в Ubuntu/Debian/Homebrew запрещён (PEP 668)
 pip install -r scripts/requirements.txt          # numpy, opencv-python (Python ≥ 3.10)
 brew install ffmpeg node                         # macOS; Linux: apt install ffmpeg nodejs; нужен ffmpeg с libx265 и libvpx-vp9
 bash scripts/vision/setup.sh                     # venv scripts/vision/venv + модели OpenCV Zoo (для выреза человека и jumpcheck)

@@ -27,7 +27,7 @@
 ## Порядок для Hugging Face (один раз и на каждый рендер)
 Все команды ниже запускайте **из корня набора** (пути `remotion`, `public/lesson1/voice.wav` и `out/…` в примерах считаются от него; `--audio` дополнительно ищется от папки проекта).
 
-1. **Токены.** Токен HF с правом write → в `.env` как `HF_TOKEN` (никогда не печатать и не коммитить). `pip install -r cloud/requirements.txt`; в `remotion/` — `npm install`.
+1. **Токены.** Токен HF с правом write → в `.env` как `HF_TOKEN` (никогда не печатать и не коммитить). `pip install -r cloud/requirements.txt` (в venv набора, см. `AGENTS.md`, шаг 0); в `remotion/` — `npm ci`.
 2. **Space + датасет (один раз):** `python3 cloud/worker/setup_hf.py --project remotion` — создаст приватные `video-render-assets` и `remotion-speed-worker`, соберёт образ. Подробно и вручную — [`worker/README.md`](worker/README.md). В конце выведет две строки для `.env`: `HF_DATASET=…` и `HF_WORKER_IMAGE=…`.
 3. **План (бесплатно, облако не вызывается):**
    ```bash
@@ -114,7 +114,7 @@ python3 cloud/modal_render.py --project remotion --lesson 1 --out out/lesson1_2k
 ## Локальный рендер (последний вариант)
 ```bash
 cd remotion
-npx remotion render src/index.ts Lesson1 out/lesson1_2k.mp4 --scale=1.3333333333333333
+npx remotion render src/index.ts Lesson1 ../out/lesson1_2k.mp4 --scale=1.3333333333333333   # ../out — out/ в корне набора, как у hf_render.py
 ```
 ≈ 1–1,5 часа на 8 ядрах для 14-минутного ролика (замер автора); 3-минутный — 15–20 минут (оценка из `skills/cloud-render/SKILL.md`, проверить на своей машине). Не рендерьте на ноутбуке 14-минутный ролик, если доступно облако.
 

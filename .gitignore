@@ -12,3 +12,5 @@ __pycache__/
 .claude-api-worker/
 .DS_Store
 work/
+.venv/
+work/

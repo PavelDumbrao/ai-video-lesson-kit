@@ -4,7 +4,7 @@
 #      видео копируется без перекодирования (-c:v copy), звук AAC 192k 48 кГц → <out.mp4> (мастер для публикации);
 #   2) превью 720p HEVC (libx265, тег hvc1, +faststart) ≤ 30 МБ ОДНИМ проходом по всему ролику (кусками не кодировать —
 #      заметен «пульс» качества): битрейт считается из длительности под бюджет --preview-mb (по умолчанию 26 МБ — запас
-#      до 30), по умолчанию → <out>_preview.mp4. Если вышло больше 30 МБ — один повтор с пониженным битрейтом.
+#      до 30; видео не больше 2,5 Мбит/с и 60 % битрейта мастера — короткому ролику бюджет не нужен целиком), по умолчанию → <out>_preview.mp4. Если вышло больше 30 МБ — один повтор с пониженным битрейтом.
 # Нужны ffmpeg (с libx265 для превью) и python3. Пример:
 #   bash scripts/finish.sh out/lesson1_2k.mp4 out/lesson1_final_2k.mp4
 set -e
@@ -64,10 +64,11 @@ if [ "$DO_PREVIEW" = 1 ]; then
       -x265-params log-level=error -c:a aac -b:a "${AUDIO_K}k" -ar 48000 -movflags +faststart "$PREVIEW" </dev/null
   }
   VK=$(python3 -c "
-import sys
-dur, mb, ak = float(sys.argv[1]), float(sys.argv[2]), int(sys.argv[3])
-print(max(150, int(mb * 8192 / dur * 0.97) - ak))  # МБ → кбит, минус ~3 % контейнера и звук
-" "$DUR" "$BUDGET_MB" "$AUDIO_K")
+import os, sys
+dur, mb, ak, master = float(sys.argv[1]), float(sys.argv[2]), int(sys.argv[3]), os.path.getsize(sys.argv[4])
+# МБ → кбит, минус ~3 % контейнера и звук; потолок — 2,5 Мбит/с и 60 % битрейта мастера (иначе превью короткого ролика тяжелее мастера)
+print(max(150, min(int(mb * 8192 / dur * 0.97) - ak, 2500, int(master * 8 / 1000 / dur * 0.6))))
+" "$DUR" "$BUDGET_MB" "$AUDIO_K" "$OUT")
   encode "$VK"
   PSIZE=$(python3 -c "import os,sys; print(round(os.path.getsize(sys.argv[1])/1048576,1))" "$PREVIEW")
   if python3 -c "import sys; sys.exit(0 if float(sys.argv[1]) > float(sys.argv[2]) else 1)" "$PSIZE" "$LIMIT_MB"; then

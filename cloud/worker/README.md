@@ -12,7 +12,7 @@
 ## Что нужно заранее
 1. Аккаунт Hugging Face с привязанной картой (карта нужна площадке; при нулевом использовании ничего не списывается) и токен с правом **write**: huggingface.co → Settings → Access Tokens → New token → тип *Write*. Для fine-grained токена нужны права на создание/запись репозиториев и на запуск Jobs — **проверить** в интерфейсе токена.
 2. Токен — только в переменную окружения (файл `.env` в корне набора, он в `.gitignore`): `HF_TOKEN=…`. Не печатайте и не коммитьте его.
-3. `pip install -r cloud/requirements.txt`, в `remotion/` выполнен `npm install` (нужен `package-lock.json`: версии Remotion в образе и в проекте обязаны совпасть).
+3. `pip install -r cloud/requirements.txt`, в `remotion/` выполнен `npm ci` (нужен `package-lock.json`: версии Remotion в образе и в проекте обязаны совпасть).
 
 ## Быстрый путь (одна команда)
 ```bash

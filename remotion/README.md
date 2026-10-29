@@ -4,7 +4,7 @@
 
 Любой урок N регистрируется **данными** `public/lessonN/*.json` и **папкой сцен** `src/motion/scenes/lN/`. Композиция называется `Lesson<N>`, кадр 1920×1080, 30 fps.
 
-В комплекте уже лежит урок 1 («Как сделано это видео», пример из `examples/how-this-video-is-made/`): готовые данные и **заглушки** сцен (`() => null`) — по ним удобно проверять конвейер.
+В комплекте уже лежит урок 1 («Как сделано это видео», пример из `examples/how-this-video-is-made/`): готовые данные и 16 настоящих сцен (раздел «Пример» в конце) — по ним удобно и проверять конвейер, и учиться писать сцены.
 
 ## Установка и проверка
 
@@ -12,13 +12,13 @@
 
 ```bash
 cd remotion
-npm install                                    # версии зафиксированы в package-lock.json
+npm ci                                         # ровно версии из package-lock.json (npm install на npm 10 переписывает lock-файл)
 npx tsc --noEmit                               # типы: 0 ошибок
 npx remotion compositions src/index.ts         # должна быть видна Lesson1 (23408 кадров ≈ 780 с)
 ```
 
 - Первый запуск `remotion compositions/still/render` один раз скачивает Chrome Headless Shell (~170 МБ) в `node_modules/.remotion` — это нормально, ждать 1–2 минуты.
-- `npm install` может написать `npm warn install-scripts … esbuild`. Это предупреждение npm 11; на сборку Remotion оно не влияет.
+- `npm ci` / `npm install` может написать `npm warn install-scripts … esbuild`. Это предупреждение npm 11; на сборку Remotion оно не влияет.
 - Просмотр и покадровая отладка: `npm run studio` (или `npx remotion studio src/index.ts`).
 
 ### voice.wav
@@ -61,7 +61,7 @@ remotion/
         └── scenes/
             ├── index.ts              # SCENES: тип → компонент (…L1_SCENES, …L2_SCENES)
             ├── kit.tsx               # общий помощник сцен (TileRow — ряд пронумерованных плиток)
-            └── l1/                   # сцены урока 1 (заглушки): index.ts + по файлу на тип
+            └── l1/                   # сцены урока 1 (16 настоящих сцен ролика): index.ts + по файлу на тип
 ```
 
 Библиотека примитивов (`src/motion/`): окно-фрейм `Frame`, `Pop`, пузырь чата `Bubble`, `Avatar`, `Chip`, `Stamp`, `CheckBadge`, `Checklist`, `Strike`, печатающийся текст и код `TypeText`/`CodeBlock`/`DiffView`, график и рисование линий `DrawPath`/`Bars`/`Ring`, схема узлов `FlowNode`/`FlowEdge`, календарь, песочные часы, фиксация коммитов `CommitRail` и др., SVG-иконки `Icon` (без логотипов брендов). Всё детерминировано: только `frame`, `interpolate`, `spring`, без `Math.random`, `Date` и таймеров.
@@ -153,8 +153,10 @@ python3 scripts/resolve_storyboard.py examples/how-this-video-is-made/storyboard
 Локально (2K из композиции 1080p; нужен `voice.wav`):
 
 ```bash
-npx remotion render src/index.ts Lesson1 out/lesson1_2k.mp4 --scale=1.3333333333333333
+npx remotion render src/index.ts Lesson1 ../out/lesson1_2k.mp4 --scale=1.3333333333333333 --concurrency 6
 ```
+
+Файл кладётся в `out/` **в корне набора** (`../out/`), как у облачного рендера: дальше `scripts/finish.sh` и `scripts/frames_05s.py` запускаются из корня с путями `out/…`. Замер на 8 ядрах (VPS, `--concurrency 6`): минута 2K с одним местом лица ≈ 7 мин (первые 10 с с лицом — ≈ 5 из них: кадры с вырезом VP9 с альфой считаются в разы медленнее графики).
 
 Проверка отдельных кусков: `npx remotion still src/index.ts Lesson1 out/f.png --frame=1250`, `npx remotion render src/index.ts Lesson1 out/part.mp4 --frames=600-900 --scale=0.5 --muted`; листы кадров каждые 0,5 с — `scripts/frames_05s.py`.
 
